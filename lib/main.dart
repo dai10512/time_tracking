@@ -3,9 +3,9 @@ import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracking/providers/project_provider.dart';
 
+import 'common/route.dart';
 import 'providers/task_provder.dart';
 import 'providers/time_entry_provider.dart';
-import 'screens/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,9 +31,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          // 049588
           primarySwatch: Colors.green,
         ),
-        home: HomeScreen(),
+        initialRoute: RouteName.home,
+        routes: RouteManager.routes,
       ),
     );
   }

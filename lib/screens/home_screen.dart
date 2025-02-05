@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../common/route.dart';
 import '../providers/time_entry_provider.dart';
-import 'add_time_entry_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -32,18 +32,16 @@ class HomeScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.category, color: Colors.deepPurple),
-                title: Text('Manage Categories'),
-                onTap: () {
-                  Navigator.pop(context); // This closes the drawer
-                  Navigator.pushNamed(context, '/manage_categories');
+                title: Text('Manage Projects'),
+                onTap: () async {
+                  await Navigator.pushNamed(context, RouteName.manageProjects);
                 },
               ),
               ListTile(
                 leading: Icon(Icons.tag, color: Colors.deepPurple),
-                title: Text('Manage Tags'),
+                title: Text('Manage Tasks'),
                 onTap: () {
-                  Navigator.pop(context); // This closes the drawer
-                  Navigator.pushNamed(context, '/manage_tags');
+                  Navigator.pushNamed(context, RouteName.manageTasks);
                 },
               ),
             ],
@@ -53,6 +51,11 @@ class HomeScreen extends StatelessWidget {
           children: [
             Consumer<TimeEntryProvider>(
               builder: (context, provider, child) {
+                if (provider.entries.isEmpty) {
+                  return Center(
+                    child: Text('No time entries found'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: provider.entries.length,
                   itemBuilder: (context, index) {
@@ -72,6 +75,11 @@ class HomeScreen extends StatelessWidget {
             ),
             Consumer<TimeEntryProvider>(
               builder: (context, provider, child) {
+                if (provider.entries.isEmpty) {
+                  return Center(
+                    child: Text('No time entries found'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: provider.entries.length,
                   itemBuilder: (context, index) {
@@ -88,12 +96,7 @@ class HomeScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (context) => AddTimeEntryScreen()),
-            );
+            Navigator.pushNamed(context, RouteName.addTimeEntry);
           },
           tooltip: 'Add Time Entry',
           child: Icon(Icons.add),
