@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<TimeEntryProvider>(
-            create: (context) => TimeEntryProvider(localStorage: localStorage)),
-        Provider<ProjectProvider>(
+        ChangeNotifierProvider<TimeEntryProvider>(
+            create: (context) => TimeEntryProvider(localStorage)),
+        ChangeNotifierProvider<ProjectProvider>(
             create: (context) => ProjectProvider(localStorage: localStorage)),
-        Provider<TaskProvider>(
+        ChangeNotifierProvider<TaskProvider>(
             create: (context) => TaskProvider(localStorage: localStorage)),
       ],
       child: MaterialApp(

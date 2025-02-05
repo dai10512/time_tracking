@@ -4,17 +4,17 @@ import 'package:localstorage/localstorage.dart';
 import '../models/time_entry.dart';
 
 class TimeEntryProvider with ChangeNotifier {
-  late final LocalStorage _storage;
+  final LocalStorage storage;
 
   List<TimeEntry> _entries = [];
   List<TimeEntry> get entries => _entries;
 
-  TimeEntryProvider({required LocalStorage localStorage}) : _storage = localStorage {
+  TimeEntryProvider(this.storage) {
     _loadStorage();
   }
 
   void _loadStorage() {
-    final storedData = _storage.getItem('timeEntries') ?? [];
+    final storedData = storage.getItem('timeEntries') ?? [];
     _entries = (storedData as List).map((e) => TimeEntry.fromJson(e)).toList();
   }
 

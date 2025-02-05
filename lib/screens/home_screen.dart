@@ -21,6 +21,33 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Text('Time Tracking App'),
+              ),
+              ListTile(
+                title: Text('Time Entries'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Projects'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Tasks'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
         body: TabBarView(
           children: [
             Consumer<TimeEntryProvider>(
@@ -49,7 +76,8 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final entry = provider.entries[index];
                     return ListTile(
-                      title: Text('${entry.projectId} - ${entry.totalTime} hours'),
+                      title:
+                          Text('${entry.projectId} - ${entry.totalTime} hours'),
                     );
                   },
                 );
@@ -61,7 +89,9 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddTimeEntryScreen()),
+              MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => AddTimeEntryScreen()),
             );
           },
           tooltip: 'Add Time Entry',
