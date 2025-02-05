@@ -2,35 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
 import '../models/Task.dart';
+
 class TaskProvider with ChangeNotifier {
-  late final LocalStorage _storage;
+  late final LocalStorage localStorage;
 
-  List<Task> _Tasks = [];
-  List<Task> get Tasks => _Tasks;
+  List<Task> _tasks = [];
+  List<Task> get tasks => _tasks;
 
-  TaskProvider({required LocalStorage localStorage}) {
+  TaskProvider(this.localStorage) {
     _loadStorage();
   }
 
   void _loadStorage() {
-    final storedData = _storage.getItem('Tasks') ?? [];
-    _Tasks = (storedData as List).map((e) => Task.fromJson(e)).toList();
+    final storedData = localStorage.getItem('Tasks') ?? [];
+    _tasks = (storedData as List).map((e) => Task.fromJson(e)).toList();
   }
 
-  void addTask(Task Task) {
-    _Tasks.add(Task);
+  void addTask(Task task) {
+    _tasks.add(task);
     notifyListeners();
   }
 
   void deleteTask(String id) {
-    _Tasks.removeWhere((Task) => Task.id == id);
+    _tasks.removeWhere((task) => task.id == id);
     notifyListeners();
   }
 
-  void updateTask(Task Task) {
-    final index = _Tasks.indexWhere((t) => t.id == Task.id);
+  void updateTask(Task task) {
+    final index = _tasks.indexWhere((t) => t.id == task.id);
     if (index != -1) {
-      _Tasks[index] = Task;
+      _tasks[index] = task;
       notifyListeners();
     }
   }

@@ -23,26 +23,27 @@ class HomeScreen extends StatelessWidget {
         ),
         drawer: Drawer(
           child: ListView(
-            children: [
+            padding: EdgeInsets.zero,
+            children: <Widget>[
               DrawerHeader(
-                child: Text('Time Tracking App'),
+                decoration: BoxDecoration(color: Colors.deepPurple),
+                child: Text('Menu',
+                    style: TextStyle(color: Colors.white, fontSize: 24)),
               ),
               ListTile(
-                title: Text('Time Entries'),
+                leading: Icon(Icons.category, color: Colors.deepPurple),
+                title: Text('Manage Categories'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context); // This closes the drawer
+                  Navigator.pushNamed(context, '/manage_categories');
                 },
               ),
               ListTile(
-                title: Text('Projects'),
+                leading: Icon(Icons.tag, color: Colors.deepPurple),
+                title: Text('Manage Tags'),
                 onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Tasks'),
-                onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context); // This closes the drawer
+                  Navigator.pushNamed(context, '/manage_tags');
                 },
               ),
             ],

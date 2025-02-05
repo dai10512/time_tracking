@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracking/providers/project_provider.dart';
-import 'package:time_tracking/providers/task_provder.dart';
 
+import 'providers/task_provder.dart';
 import 'providers/time_entry_provider.dart';
 import 'screens/home_screen.dart';
 
@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TimeEntryProvider>(
             create: (context) => TimeEntryProvider(localStorage)),
         ChangeNotifierProvider<ProjectProvider>(
-            create: (context) => ProjectProvider(localStorage: localStorage)),
+            create: (context) => ProjectProvider(localStorage)),
         ChangeNotifierProvider<TaskProvider>(
-            create: (context) => TaskProvider(localStorage: localStorage)),
+            create: (context) => TaskProvider(localStorage)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

@@ -4,17 +4,17 @@ import 'package:localstorage/localstorage.dart';
 import '../models/project.dart';
 
 class ProjectProvider with ChangeNotifier {
-  late final LocalStorage _storage;
+  late final LocalStorage localStorage;
 
   List<Project> _projects = [];
   List<Project> get projects => _projects;
 
-  ProjectProvider({required LocalStorage localStorage}) {
+  ProjectProvider(this.localStorage) {
     _loadStorage();
   }
 
   void _loadStorage() {
-    final storedData = _storage.getItem('projects') ?? [];
+    final storedData = localStorage.getItem('projects') ?? [];
     _projects = (storedData as List).map((e) => Project.fromJson(e)).toList();
   }
 
