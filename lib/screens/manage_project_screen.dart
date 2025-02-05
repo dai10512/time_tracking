@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/project.dart';
 import '../providers/project_provider.dart';
 
 class ProjectManagementScreen extends StatelessWidget {
@@ -34,7 +37,39 @@ class ProjectManagementScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              final projectController = TextEditingController();
+              return AlertDialog(
+                title: Text('Add Project'),
+                content: TextField(
+                  controller: projectController,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Provider.of<ProjectProvider>(context, listen: false)
+                          .addProject(Project(
+                        id: Random().toString(),
+                        name: projectController.text,
+                      ));
+                      Navigator.pop(context);
+                    },
+                    child: Text('Add'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
         tooltip: 'Add Project',
         child: Icon(Icons.add),
       ),

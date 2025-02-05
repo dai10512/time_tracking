@@ -60,7 +60,7 @@ class TaskManagementScreen extends StatelessWidget {
                     onPressed: () {
                       Provider.of<TaskProvider>(context, listen: false).addTask(
                         Task(
-                          id: Random().nextDouble().toString(),
+                          id: Random().toString(),
                           name: taskController.text,
                         ),
                       );

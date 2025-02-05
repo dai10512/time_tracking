@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/time_entry.dart';
@@ -17,9 +20,9 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
   final _formKey = GlobalKey<FormState>();
   String? projectId;
   String? taskId;
-  double totalTime = 0.0;
-  DateTime date = DateTime.now();
-  String notes = '';
+  double? totalTime;
+  DateTime? date;
+  String? notes;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,27 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                 )),
             ),
             TextFormField(
+              decoration: InputDecoration(labelText: 'Date'),
+              controller: TextEditingController(
+                text:
+                    date != null ? DateFormat('yyyy-MM-dd').format(date!) : '',
+              ),
+              readOnly: true,
+              onTap: () async {
+                final selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: date ?? DateTime.now(),
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime.now(),
+                );
+                if (selectedDate != null) {
+                  setState(() {
+                    date = selectedDate;
+                  });
+                }
+              },
+            ),
+            TextFormField(
               decoration: InputDecoration(labelText: 'Total Time (hours)'),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               validator: (value) {
@@ -105,11 +129,11 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                   Provider.of<TimeEntryProvider>(context, listen: false)
                       .addTimeEntry(TimeEntry(
                     id: DateTime.now().toString(), // Simple ID generation
-                    projectId: projectId!,
+                    projectId: Random().toString(),
                     taskId: taskId!,
-                    totalTime: totalTime,
-                    date: date,
-                    notes: notes,
+                    totalTime: totalTime!,
+                    date: date!,
+                    notes: notes!,
                   ));
                   Navigator.pop(context);
                 }
