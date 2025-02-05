@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracking/models/Task.dart';
@@ -28,9 +26,63 @@ class TaskManagementScreen extends StatelessWidget {
               final task = taskProvider.tasks[index];
               return ListTile(
                 title: Text(task.name),
-                onTap: () {
-                  // Handle task tap
+                onTap: () async {
+                  final isUpdated = await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      String newName = '';
+                      return AlertDialog(
+                        title: Text('Edit Task'),
+                        content: TextField(
+                          controller: TextEditingController(text: task.name),
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              newName = value;
+                            }
+                          },
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            child: Text('Cancel'),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Provider.of<TaskProvider>(context,
+                                        listen: false)
+                                    .updateTask(Task(
+                                  id: task.id,
+                                  name: newName,
+                                ));
+                                Navigator.pop(context, true);
+                              },
+                              child: Text('Save')),
+                        ],
+                      );
+                    },
+                  );
+                  if (isUpdated == true && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Task updated'),
+                      ),
+                    );
+                  }
                 },
+                trailing: IconButton(
+                  onPressed: () {
+                    Provider.of<TaskProvider>(context, listen: false)
+                        .deleteTask(task.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Task deleted'),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
               );
             },
           );
@@ -60,8 +112,13 @@ class TaskManagementScreen extends StatelessWidget {
                     onPressed: () {
                       Provider.of<TaskProvider>(context, listen: false).addTask(
                         Task(
-                          id: Random().toString(),
+                          id: DateTime.now().toString(),
                           name: taskController.text,
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Task added'),
                         ),
                       );
                       Navigator.pop(context);

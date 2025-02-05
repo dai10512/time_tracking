@@ -28,9 +28,63 @@ class ProjectManagementScreen extends StatelessWidget {
               final project = projectProvider.projects[index];
               return ListTile(
                 title: Text(project.name),
-                onTap: () {
-                  // Handle project tap
+                onTap: () async {
+                  final isUpdated = await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      String newName = '';
+                      return AlertDialog(
+                        title: Text('Edit Project'),
+                        content: TextField(
+                          controller: TextEditingController(text: project.name),
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              newName = value;
+                            }
+                          },
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            child: Text('Cancel'),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Provider.of<ProjectProvider>(context,
+                                        listen: false)
+                                    .update(Project(
+                                  id: project.id,
+                                  name: newName,
+                                ));
+                                Navigator.pop(context, true);
+                              },
+                              child: Text('Save')),
+                        ],
+                      );
+                    },
+                  );
+                  if (isUpdated == true && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Project updated'),
+                      ),
+                    );
+                  }
                 },
+                trailing: IconButton(
+                  onPressed: () {
+                    Provider.of<ProjectProvider>(context, listen: false)
+                        .delete(project.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Project deleted'),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
               );
             },
           );
@@ -57,8 +111,8 @@ class ProjectManagementScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Provider.of<ProjectProvider>(context, listen: false)
-                          .addProject(Project(
-                        id: Random().toString(),
+                          .add(Project(
+                        id: DateTime.now().toString(),
                         name: projectController.text,
                       ));
                       Navigator.pop(context);

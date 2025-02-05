@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import 'dart:convert';
 
+import '../common/storage_key.dart';
 import '../models/time_entry.dart';
 
 class TimeEntryProvider with ChangeNotifier {
@@ -14,17 +16,31 @@ class TimeEntryProvider with ChangeNotifier {
   }
 
   void _loadStorage() {
-    final storedData = localStorage.getItem('timeEntries') ?? [];
-    _entries = (storedData as List).map((e) => TimeEntry.fromJson(e)).toList();
+    final jsonString = localStorage.getItem(StorageKey.timeEntries) ?? '[]';
+    final storedData = jsonDecode(jsonString) as List;
+    _entries = storedData.map((item) => TimeEntry.fromJson(item)).toList();
+  }
+
+  void _setStorage() {
+    final jsonString = jsonEncode(_entries.map((e) => e.toJson()).toList());
+    localStorage.setItem(StorageKey.timeEntries, jsonString);
   }
 
   void addTimeEntry(TimeEntry entry) {
     _entries.add(entry);
+    _setStorage();
     notifyListeners();
   }
 
   void deleteTimeEntry(String id) {
     _entries.removeWhere((entry) => entry.id == id);
+    _setStorage();
+    notifyListeners();
+  }
+
+  void deleteAll() {
+    _entries.clear();
+    _setStorage();
     notifyListeners();
   }
 }
