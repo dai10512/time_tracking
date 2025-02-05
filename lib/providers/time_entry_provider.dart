@@ -9,7 +9,7 @@ class TimeEntryProvider with ChangeNotifier {
   List<TimeEntry> _entries = [];
   List<TimeEntry> get entries => _entries;
 
-  TimeEntryProvider({required LocalStorage localStorage}) {
+  TimeEntryProvider({required LocalStorage localStorage}) : _storage = localStorage {
     _loadStorage();
   }
 
