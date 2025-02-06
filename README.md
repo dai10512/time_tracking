@@ -1,16 +1,13 @@
-# time_tracking
+Project Overview
+This project is the final assignment for the Coursera course "hogehoge". It is a Flutter-based application developed to demonstrate the skills and knowledge acquired during the course.
 
-A new Flutter project.
+Tech Stack
+State Management: The provider package is used for efficient state management throughout the application.
+Data Persistence: User data is stored persistently using LocalStorage.
+Learning Objectives
+Through this project, I gained hands-on experience in implementing state management and data persistence in Flutter applications. The goal was to apply the concepts learned in the Coursera course and build a practical application.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+https://github.com/user-attachments/assets/d0bf614b-5d38-4ba8-b1b6-ad71e184c4e5
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://coursera.org/share/77fc2e2ec2cd9c3cad4cc7fe2d11d2a7
